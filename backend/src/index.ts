@@ -3,7 +3,8 @@ import { ErrorCodes } from './errorCodes';
 import { Product } from './product';
 import { arrayBuffer } from 'stream/consumers';
 import { json } from 'body-parser';
-import { cors } from 'cors';
+import cors from 'cors';
+
 
 
 const app: Express = express();
@@ -14,16 +15,16 @@ app.use(cors())
 
 
 const products: Product[] = [
-  { id: 1, name: "Producto 1", price: 100, stock: 3, images: ['img1.png', 'img2.png', 'img3.png']},
-  { id: 2, name: "Producto 2", price: 70, stock: 1, images: ['img1.png', 'img2.png', 'img3.png']},
-  { id: 3, name: "Producto 3", price: 25, stock: 1, images: ['img1.png', 'img2.png', 'img3.png']},
+  { id: 1, name: "Producto 1", price: 100, stock: 3, images: ['https://picsum.photos/200', 'https://picsum.photos/201', 'https://picsum.photos/202']},
+  { id: 2, name: "Producto 2", price: 70, stock: 1, images: ['https://picsum.photos/204', 'https://picsum.photos/205', 'https://picsum.photos/206']},
+  { id: 3, name: "Producto 3", price: 25, stock: 1, images: ['https://picsum.photos/207', 'https://picsum.photos/208', 'https://picsum.photos/209']},
 ];
 
 /**
  * Get all products
  */
 app.get('/product', (req: Request, res: Response) => {
-  res.send(products);
+  res.send(products.map(x => ({...x, images: [x.images[0]]})));
 });
 
 /**
@@ -35,8 +36,9 @@ app.get('/product/:id', (req: Request, res: Response) => {
   const product = products.filter(x => x.id === productId);
 
   if (product.length > 0) {
-
+    res.send(product[0]);
   } else {
+    res.status(404).send({ error: ErrorCodes.PRODUCT_NOT_FOUND });
   }
 });
 
