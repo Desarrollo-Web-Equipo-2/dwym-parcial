@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ProductService } from "../services/product.service";
+import { Product } from "../interfaces/product";
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,14 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  products: Product[] = [];
+
+  constructor(private productsService: ProductService) {
+    this.productsService.getAllProducts().subscribe({
+      next: (res) => {
+        this.products = res;
+      }
+    })
+  }
 
 }
