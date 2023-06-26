@@ -1,9 +1,9 @@
 Product{
-	id: Number
-	Name: String
-	Price: Number
-	Stock: Number
-	Image: String
+	id: Number,
+	Name: String,
+	Price: Number,
+	Stock: Number,
+	Image: String[] 
 }
 
 GET	/products
